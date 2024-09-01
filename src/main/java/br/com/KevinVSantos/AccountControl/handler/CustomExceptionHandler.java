@@ -1,6 +1,7 @@
 package br.com.KevinVSantos.AccountControl.handler;
 
 import br.com.KevinVSantos.AccountControl.domain.dto.error.DefaultErrorDto;
+import br.com.KevinVSantos.AccountControl.handler.exception.EntityAlreadyExistsException;
 import br.com.KevinVSantos.AccountControl.handler.exception.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +16,9 @@ import java.util.Date;
 @Slf4j
 public class CustomExceptionHandler {
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<DefaultErrorDto> entityNotFound(EntityNotFoundException e, HttpServletRequest request){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DefaultErrorDto(e, request));
+    @ExceptionHandler(AbstractException.class)
+    public ResponseEntity<DefaultErrorDto> entityNotFound(AbstractException e, HttpServletRequest request){
+        return ResponseEntity.status(e.getHttpStatus()).body(new DefaultErrorDto(e, request));
     }
 
     @ExceptionHandler(RuntimeException.class)

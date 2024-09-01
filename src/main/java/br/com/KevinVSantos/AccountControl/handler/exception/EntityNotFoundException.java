@@ -10,6 +10,10 @@ public class EntityNotFoundException extends AbstractException {
         super("Entity not found");
     }
 
+    public EntityNotFoundException(String message){
+        super(message);
+    }
+
     public HttpStatus getHttpStatus(){
         return HttpStatus.NOT_FOUND;
     }
