@@ -2,6 +2,7 @@ package br.com.KevinVSantos.AccountControl.controller;
 
 import br.com.KevinVSantos.AccountControl.domain.entity.AbstractEntity;
 import br.com.KevinVSantos.AccountControl.service.AbstractService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,12 @@ public abstract class AbstractController<Id, Service extends AbstractService, En
     }
 
     @PostMapping
-    public ResponseEntity post(@RequestBody Entity entity){
+    public ResponseEntity post(@RequestBody @Valid Entity entity){
         return ResponseEntity.ok(service.create(entity));
     }
 
     @PutMapping
-    public ResponseEntity put(@RequestBody Entity entity){
+    public ResponseEntity put(@RequestBody @Valid Entity entity){
         return ResponseEntity.ok(service.update(entity));
     }
 

@@ -7,6 +7,8 @@ import br.com.KevinVSantos.AccountControl.domain.enums.AccountStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,14 +29,18 @@ public class Account extends AbstractEntity<AccountId> {
     private Integer id;
 
     @Id
+    @NotNull
     private Integer agency;
 
+    @NotNull
     private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private AccountStatusEnum status;
 
     @JoinColumn(name = "clientDocument")
+    @NotBlank
     private String clientDocument;
 
     @JsonIgnore

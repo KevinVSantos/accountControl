@@ -4,6 +4,7 @@ import br.com.KevinVSantos.AccountControl.domain.entity.account.Account;
 import br.com.KevinVSantos.AccountControl.domain.entity.payment.Payment;
 import br.com.KevinVSantos.AccountControl.service.AccountService;
 import br.com.KevinVSantos.AccountControl.service.PaymentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class PaymentController{
     @PostMapping
     public ResponseEntity post(
             @RequestHeader String password,
-            @RequestBody Payment entity){
+            @RequestBody @Valid Payment entity){
 
         return ResponseEntity.ok(service.create(entity, password));
     }

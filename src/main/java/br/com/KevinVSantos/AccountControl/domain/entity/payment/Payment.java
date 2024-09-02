@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,9 +26,11 @@ public class Payment extends AbstractEntity<Long> {
     private Long id;
 
     @JoinColumn(name = "originId")
+    @NotNull
     private Integer originId;
 
     @JoinColumn(name = "originAgency")
+    @NotNull
     private Integer originAgency;
 
     @JsonIgnore
@@ -38,9 +42,11 @@ public class Payment extends AbstractEntity<Long> {
     private Account origin;
 
     @JoinColumn(name = "destinationId")
+    @NotNull
     private Integer destinationId;
 
     @JoinColumn(name = "destinationAgency")
+    @NotNull
     private Integer destinationAgency;
 
     @JsonIgnore
@@ -62,6 +68,7 @@ public class Payment extends AbstractEntity<Long> {
     @OneToOne(mappedBy="parent", optional=true, orphanRemoval = true, cascade = CascadeType.ALL)
     private Payment children;
 
+    @NotNull
     private BigDecimal amount;
 
     private String justification;

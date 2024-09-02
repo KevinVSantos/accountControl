@@ -30,6 +30,8 @@ public class PaymentService extends AbstractService<Long, Payment, IPaymentRepos
 
         verifyAmount(entity.getAmount(), origin.getBalance());
 
+        entity.setParentId(null);
+
         var result = this.getRepository().save(entity);
 
         transfer(origin, destination, entity.getAmount());
