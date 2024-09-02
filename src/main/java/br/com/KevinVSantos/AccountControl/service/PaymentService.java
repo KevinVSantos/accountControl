@@ -21,6 +21,9 @@ public class PaymentService extends AbstractService<Long, Payment, IPaymentRepos
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private NotificationService notificationService;
+
     public Payment create(Payment entity, String password) {
 
         var origin = verifyAccount(entity.getOriginId(), entity.getOriginAgency(), "Origin account not found");
@@ -35,6 +38,7 @@ public class PaymentService extends AbstractService<Long, Payment, IPaymentRepos
         var result = this.getRepository().save(entity);
 
         transfer(origin, destination, entity.getAmount());
+        notificationService.create(origin, destination, result);
 
         return result;
     }
@@ -65,6 +69,7 @@ public class PaymentService extends AbstractService<Long, Payment, IPaymentRepos
         var result = this.getRepository().save(revertPayment);
 
         transfer(origin, destination, oldPayment.getAmount());
+        notificationService.create(origin, destination, result);
 
         return result;
     }
