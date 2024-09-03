@@ -23,8 +23,7 @@ public class AccountService extends AbstractService<AccountId, Account, IAccount
         return findById(accountId);
     }
 
-    @Override
-    public Account create(Account entity){
+    public Account create(Account entity, String password){
 
         try {
             clientService.findById(entity.getClientDocument());
@@ -32,7 +31,22 @@ public class AccountService extends AbstractService<AccountId, Account, IAccount
             throw new EntityNotFoundException("Client not found");
         }
 
+        clientService.isAuth(entity.getClientDocument(), password);
+
         return super.create(entity);
+    }
+
+    public Account update(Account entity, String password){
+
+        try {
+            clientService.findById(entity.getClientDocument());
+        }catch (EntityNotFoundException e){
+            throw new EntityNotFoundException("Client not found");
+        }
+
+        clientService.isAuth(entity.getClientDocument(), password);
+
+        return super.update(entity);
     }
 
 }

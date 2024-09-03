@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -84,6 +85,19 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<DefaultErrorDto> missingServletRequestParameterException(MissingServletRequestParameterException e, HttpServletRequest request)
+    {
+        var errorDto =
+                new DefaultErrorDto(
+                        new Date(),
+                        e.getMessage(),
+                        HttpStatus.BAD_REQUEST,
+                        400,
+                        request.getRequestURL().toString());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
+    }
+
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ResponseEntity<DefaultErrorDto> missingRequestHeaderException(MissingRequestHeaderException e, HttpServletRequest request)
     {
         var errorDto =
                 new DefaultErrorDto(
